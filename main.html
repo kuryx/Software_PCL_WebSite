@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Gestión PCL - Medicina</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Unicons -->
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+  
+  <style>
+    /*==================== VARIABLES CSS ====================*/
+    :root {
+      --header-height: 3rem;
+
+      /*========== Colors ==========*/
+      --hue-color: 250; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
+
+      /* HSL color mode */
+      --first-color: hsl(var(--hue-color), 69%, 61%);
+      --first-color-second: hsl(var(--hue-color), 69%, 61%);
+      --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+      --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
+      --title-color: hsl(var(--hue-color), 8%, 15%);
+      --text-color: hsl(var(--hue-color), 8%, 45%);
+      --text-color-light: hsl(var(--hue-color), 8%, 65%);
+      --input-color: hsl(var(--hue-color), 70%, 96%);
+      --body-color: hsl(var(--hue-color), 60%, 99%);
+      --container-color: #fff;
+      --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
+      --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+
+      /*========== Font and typography ==========*/
+      --body-font: 'Poppins', sans-serif;
+
+      /* .5rem = 8px, 1rem = 16px, 1.5rem = 24px ... */
+      --big-font-size: 2rem;
+      --h1-font-size: 1.5rem;
+      --h2-font-size: 1.25rem;
+      --h3-font-size: 1.125rem;
+      --normal-font-size: .938rem;
+      --small-font-size: .813rem;
+      --smaller-font-size: .75rem;
+
+      /*========== Font weight ==========*/
+      --font-medium: 500;
+      --font-semi-bold: 600;
+
+      /*========== Margenes Bottom ==========*/
+      --mb-0-25: .25rem;
+      --mb-0-5: .5rem;
+      --mb-0-75: .75rem;
+      --mb-1: 1rem;
+      --mb-1-5: 1.5rem;
+      --mb-2: 2rem;
+      --mb-2-5: 2.5rem;
+      --mb-3: 3rem;
+
+      /*========== z index ==========*/
+      --z-tooltip: 10;
+      --z-fixed: 100;
+      --z-modal: 1000;
+    }
+
+    /* Font size for large devices */
+    @media screen and (min-width: 968px) {
+      :root {
+        --big-font-size: 3rem;
+        --h1-font-size: 2.25rem;
+        --h2-font-size: 1.5rem;
+        --h3-font-size: 1.25rem;
+        --normal-font-size: 1rem;
+        --small-font-size: .875rem;
+        --smaller-font-size: .813rem;
+      }
+    }
+
+    /*==================== BASE ====================*/
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--body-font);
+      font-size: var(--normal-font-size);
+      background-color: var(--body-color);
+      color: var(--text-color);
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--title-color);
+      font-weight: var(--font-semi-bold);
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /*==================== SIDEBAR ====================*/
+    .sidebar {
+      position: fixed;
+      width: 250px;
+      height: 100%;
+      background-color: var(--container-color);
+      padding: 1.5rem;
+      transition: .3s;
+      z-index: var(--z-fixed);
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: var(--mb-2-5);
+    }
+
+    .sidebar-logo {
+      font-size: var(--h2-font-size);
+      color: var(--first-color);
+      font-weight: var(--font-semi-bold);
+      margin-right: var(--mb-0-75);
+    }
+
+    .sidebar-logo-text {
+      font-size: var(--h3-font-size);
+      color: var(--title-color);
+      font-weight: var(--font-semi-bold);
+    }
+
+    .sidebar-toggle {
+      font-size: 1.25rem;
+      color: var(--first-color);
+      cursor: pointer;
+      position: absolute;
+      top: 1.5rem;
+      right: -12px;
+      width: 24px;
+      height: 24px;
+      background-color: var(--container-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: var(--mb-1);
+    }
+
+    .sidebar-item {
+      margin-bottom: var(--mb-0-75);
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      color: var(--title-color);
+      transition: .3s;
+    }
+
+    .sidebar-link:hover {
+      background-color: var(--first-color-lighter);
+      color: var(--first-color);
+    }
+
+    .sidebar-link.active {
+      background-color: var(--first-color);
+      color: #fff;
+    }
+
+    .sidebar-icon {
+      font-size: 1.25rem;
+      margin-right: var(--mb-0-75);
+    }
+
+    .sidebar-user {
+      margin-top: auto;
+      padding-top: var(--mb-2);
+      border-top: 1px solid var(--text-color-light);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: var(--mb-0-75);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--first-color-lighter);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: var(--mb-0-75);
+      color: var(--first-color);
+      font-weight: var(--font-medium);
+    }
+
+    .user-name {
+      font-size: var(--small-font-size);
+      font-weight: var(--font-medium);
+      color: var(--title-color);
+    }
+
+    .user-role {
+      font-size: var(--smaller-font-size);
+      color: var(--text-color-light);
+    }
+
+    .logout-button {
+      display: flex;
+      align-items: center;
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      background-color: var(--input-color);
+      color: var(--title-color);
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .logout-button:hover {
+      background-color: var(--first-color-lighter);
+      color: var(--first-color);
+    }
+
+    /*==================== MAIN CONTENT ====================*/
+    .main-content {
+      margin-left: 250px;
+      padding: 2rem;
+      transition: .3s;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--mb-2);
+    }
+
+    .welcome-message {
+      font-size: var(--h2-font-size);
+      color: var(--title-color);
+    }
+
+    .welcome-subtitle {
+      font-size: var(--small-font-size);
+      color: var(--text-color);
+      margin-top: var(--mb-0-25);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      font-weight: var(--font-medium);
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .btn-primary {
+      background-color: var(--first-color);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--first-color-alt);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--first-color);
+      color: var(--first-color);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--first-color);
+      color: #fff;
+    }
+
+    .btn-icon {
+      font-size: 1.25rem;
+      margin-right: var(--mb-0-5);
+    }
+
+    /*==================== SEARCH BAR ====================*/
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: var(--container-color);
+      border-radius: .5rem;
+      padding: 1rem;
+      margin-bottom: var(--mb-2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--body-font);
+      font-size: var(--normal-font-size);
+      color: var(--text-color);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-color-light);
+    }
+
+    .search-btn {
+      background-color: var(--first-color);
+      color: #fff;
+      border: none;
+      border-radius: .5rem;
+      padding: .5rem 1rem;
+      cursor: pointer;
+      font-family: var(--body-font);
+      font-weight: var(--font-medium);
+      transition: .3s;
+    }
+
+    .search-btn:hover {
+      background-color: var(--first-color-alt);
+    }
+
+    .search-icon {
+      font-size: 1.25rem;
+      margin-right: var(--mb-0-5);
+    }
+
+    /*==================== PATIENT LIST ====================*/
+    .patients-container {
+      background-color: var(--container-color);
+      border-radius: .5rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--mb-1-5);
+    }
+
+    .section-title {
+      font-size: var(--h3-font-size);
+      color: var(--title-color);
+    }
+
+    .badge {
+      background-color: var(--first-color-lighter);
+      color: var(--first-color);
+      font-size: var(--smaller-font-size);
+      padding: .25rem .5rem;
+      border-radius: .25rem;
+    }
+
+    .patient-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .patient-table th {
+      text-align: left;
+      padding: 1rem 0;
+      font-weight: var(--font-medium);
+      color: var(--title-color);
+      border-bottom: 1px solid var(--scroll-bar-color);
+    }
+
+    .patient-table td {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--scroll-bar-color);
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: .25rem .5rem;
+      border-radius: 1rem;
+      font-size: var(--smaller-font-size);
+      font-weight: var(--font-medium);
+    }
+
+    .status-active {
+      background-color: hsla(142, 72%, 29%, .1);
+      color: hsl(142, 72%, 29%);
+    }
+
+    .status-pending {
+      background-color: hsla(40, 96%, 62%, .1);
+      color: hsl(40, 96%, 45%);
+    }
+
+    .status-closed {
+      background-color: hsla(0, 79%, 63%, .1);
+      color: hsl(0, 79%, 53%);
+    }
+
+    .patient-actions {
+      display: flex;
+      gap: .5rem;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: .25rem;
+      color: var(--text-color);
+      transition: .3s;
+    }
+
+    .action-btn:hover {
+      background-color: var(--scroll-bar-color);
+      color: var(--title-color);
+    }
+
+    .action-btn.edit:hover {
+      color: hsl(214, 100%, 51%);
+    }
+
+    .action-btn.delete:hover {
+      color: hsl(0, 79%, 53%);
+    }
+
+    .action-btn.view:hover {
+      color: var(--first-color);
+    }
+
+    /*==================== MODAL ====================*/
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, .5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+      z-index: var(--z-modal);
+      transition: .3s;
+    }
+
+    .modal-content {
+      position: relative;
+      background-color: var(--container-color);
+      padding: 1.5rem;
+      border-radius: .5rem;
+      width: 500px;
+      max-width: 100%;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--mb-1-5);
+    }
+
+    .modal-title {
+      font-size: var(--h2-font-size);
+      color: var(--title-color);
+    }
+
+    .modal-close {
+      font-size: 1.5rem;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .modal-close:hover {
+      color: var(--first-color);
+    }
+
+    .form-group {
+      margin-bottom: var(--mb-1-5);
+    }
+
+    .form-label {
+      display: block;
+      font-size: var(--small-font-size);
+      margin-bottom: var(--mb-0-5);
+      color: var(--title-color);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      border: 1px solid var(--text-color-light);
+      font-family: var(--body-font);
+      font-size: var(--normal-font-size);
+      color: var(--text-color);
+      background-color: var(--input-color);
+      transition: .3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--first-color);
+    }
+
+    .form-select {
+      width: 100%;
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      border: 1px solid var(--text-color-light);
+      font-family: var(--body-font);
+      font-size: var(--normal-font-size);
+      color: var(--text-color);
+      background-color: var(--input-color);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: var(--mb-2);
+    }
+
+    /* Show Modal */
+    .active-modal {
+      display: flex;
+    }
+
+    /*==================== MEDIA QUERIES ====================*/
+    /* For medium devices */
+    @media screen and (max-width: 768px) {
+      .sidebar {
+        width: 80px;
+        padding: 1rem;
+      }
+
+      .sidebar-logo-text,
+      .sidebar-icon + span,
+      .user-name,
+      .user-role,
+      .logout-button span {
+        display: none;
+      }
+
+      .sidebar-header {
+        justify-content: center;
+      }
+
+      .sidebar-toggle {
+        display: none;
+      }
+
+      .sidebar-link {
+        justify-content: center;
+        padding: .75rem;
+      }
+
+      .sidebar-icon {
+        margin-right: 0;
+      }
+
+      .user-info {
+        justify-content: center;
+      }
+
+      .logout-button {
+        justify-content: center;
+        padding: .75rem;
+      }
+
+      .main-content {
+        margin-left: 80px;
+      }
+    }
+
+    /* For small devices */
+    @media screen and (max-width: 576px) {
+      .main-content {
+        padding: 1rem;
+      }
+
+      .action-buttons {
+        display: none;
+      }
+
+      .mobile-actions {
+        display: flex;
+        margin-top: var(--mb-1);
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .search-container {
+        flex-direction: column;
+        gap: var(--mb-0-75);
+      }
+
+      .search-btn {
+        width: 100%;
+      }
+    }
+
+    /* For larger devices */
+    @media screen and (min-width: 1024px) {
+      .container {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">E</div>
+      <div class="sidebar-logo-text">Esculapio</div>
+      <div class="sidebar-toggle" id="sidebar-toggle">
+        <i class="uil uil-angle-right-b"></i>
+      </div>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="sidebar-item">
+        <a href="#" class="sidebar-link active">
+          <i class="uil uil-estate sidebar-icon"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="#" class="sidebar-link">
+          <i class="uil uil-folder sidebar-icon"></i>
+          <span>Mis PCL</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="#" class="sidebar-link">
+          <i class="uil uil-chart sidebar-icon"></i>
+          <span>Estadísticas</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="#" class="sidebar-link">
+          <i class="uil uil-file-alt sidebar-icon"></i>
+          <span>Reportes</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="#" class="sidebar-link">
+          <i class="uil uil-setting sidebar-icon"></i>
+          <span>Configuración</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-user">
+      <div class="user-info">
+        <div class="user-avatar">
+          <span>JD</span>
+        </div>
+        <div>
+          <div class="user-name">Juan Doe</div>
+          <div class="user-role">Médico Evaluador</div>
+        </div>
+      </div>
+      <button class="logout-button">
+        <i class="uil uil-signout sidebar-icon"></i>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content" id="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="welcome-message">Bienvenido, Juan</h1>
+        <p class="welcome-subtitle">Gestiona tus evaluaciones de PCL</p>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="addPatientBtn">
+          <i class="uil uil-plus-circle btn-icon"></i>
+          Nuevo Paciente
+        </button>
+        <button class="btn btn-outline">
+          <i class="uil uil-file-download btn-icon"></i>
+          Exportar
+        </button>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <i class="uil uil-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Buscar por nombre, documento o empresa...">
+      <button class="search-btn">Buscar</button>
+    </div>
+
+    <div class="patients-container">
+      <div class="section-header">
+        <h2 class="section-title">Pacientes Recientes</h2>
+        <span class="badge">15 pacientes</span>
+      </div>
+      
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Documento</th>
+            <th>Empresa</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Carlos Pérez</td>
+            <td>1234567890</td>
+            <td>Industrias XYZ</td>
+            <td>03/07/2025</td>
+            <td><span class="status-pill status-active">Activo</span></td>
+            <td>
+              <div class="patient-actions">
+                <a href="#" class="action-btn view"><i class="uil uil-eye"></i></a>
+                <a href="#" class="action-btn edit"><i class="uil uil-edit"></i></a>
+                <a href="#" class="action-btn delete"><i class="uil uil-trash-alt"></i></a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Ana María López</td>
+            <td>0987654321</td>
+            <td>Construcciones ABC</td>
+            <td>02/07/2025</td>
+            <td><span class="status-pill status-pending">Pendiente</span></td>
+            <td>
+              <div class="patient-actions">
+                <a href="#" class="action-btn view"><i class="uil uil-eye"></i></a>
+                <a href="#" class="action-btn edit"><i class="uil uil-edit"></i></a>
+                <a href="#" class="action-btn delete"><i class="uil uil-trash-alt"></i></a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Luis Rodríguez</td>
+            <td>5678901234</td>
+            <td>Minera Norte</td>
+            <td>01/07/2025</td>
+            <td><span class="status-pill status-closed">Cerrado</span></td>
+            <td>
+              <div class="patient-actions">
+                <a href="#" class="action-btn view"><i class="uil uil-eye"></i></a>
+                <a href="#" class="action-btn edit"><i class="uil uil-edit"></i></a>
+                <a href="#" class="action-btn delete"><i class="uil uil-trash-alt"></i></a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Sofía Martínez</td>
+            <td>2345678901</td>
+            <td>Telefónica DEF</td>
+            <td>28/06/2025</td>
+            <td><span class="status-pill status-active">Activo</span></td>
+            <td>
+              <div class="patient-actions">
+                <a href="#" class="action-btn view"><i class="uil uil-eye"></i></a>
+                <a href="#" class="action-btn edit"><i class="uil uil-edit"></i></a>
+                <a href="#" class="action-btn delete"><i class="uil uil-trash-alt"></i></a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Pedro Gómez</td>
+            <td>3456789012</td>
+            <td>Metalúrgica GHI</td>
+            <td>27/06/2025</td>
+            <td><span class="status-pill status-pending">Pendiente</span></td>
+            <td>
+              <div class="patient-actions">
+                <a href="#" class="action-btn view"><i class="uil uil-eye"></i></a>
+                <a href="#" class="action-btn edit"><i class="uil uil-edit"></i></a>
+                <a href="#" class="action-btn delete"><i class="uil uil-trash-alt"></i></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODAL NUEVO PACIENTE -->
+<div class="modal" id="addPatientModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Nuevo Paciente PCL</h2>
+      <i class="uil uil-times modal-close" id="closeModalBtn"></i>
+    </div>
+    <form id="addPatientForm">
+      <!-- Tabs para navegación entre secciones -->
+      <div class="form-tabs">
+        <button type="button" class="tab-btn active" data-tab="generalData">Datos Generales</button>
+        <button type="button" class="tab-btn" data-tab="socialSecurity">Seguridad Social</button>
+        <button type="button" class="tab-btn" data-tab="incidentInfo">Información del Incidente</button>
+      </div>
+      
+      <!-- Sección: Datos Generales -->
+      <div class="form-section active" id="generalData">
+        <h3 class="form-section-title">Datos Generales de la Persona Calificada</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="patientName" class="form-label">Nombres</label>
+            <input type="text" id="patientName" class="form-input" placeholder="Ingrese nombres" required>
+          </div>
+          <div class="form-group">
+            <label for="patientLastName" class="form-label">Apellidos</label>
+            <input type="text" id="patientLastName" class="form-input" placeholder="Ingrese apellidos" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="documentType" class="form-label">Tipo de documento</label>
+            <select id="documentType" class="form-select" required>
+              <option value="" disabled selected>Seleccione</option>
+              <option value="CC">Cédula de Ciudadanía</option>
+              <option value="CE">Cédula de Extranjería</option>
+              <option value="TI">Tarjeta de Identidad</option>
+              <option value="PP">Pasaporte</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="patientDocument" class="form-label">Número de documento</label>
+            <input type="text" id="patientDocument" class="form-input" placeholder="Ingrese número de documento" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+            <input type="date" id="birthDate" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="patientAge" class="form-label">Edad</label>
+            <input type="number" id="patientAge" class="form-input" placeholder="Edad" min="0" max="120" readonly>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="birthPlace" class="form-label">Lugar de nacimiento</label>
+            <input type="text" id="birthPlace" class="form-input" placeholder="Ingrese lugar de nacimiento">
+          </div>
+          <div class="form-group">
+            <label for="patientGender" class="form-label">Género</label>
+            <select id="patientGender" class="form-select" required>
+              <option value="" disabled selected>Seleccione</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+              <option value="O">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="patientAddress" class="form-label">Dirección</label>
+            <input type="text" id="patientAddress" class="form-input" placeholder="Ingrese dirección de residencia">
+          </div>
+          <div class="form-group">
+            <label for="patientCity" class="form-label">Ciudad</label>
+            <input type="text" id="patientCity" class="form-input" placeholder="Ingrese ciudad de residencia">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="patientPhone" class="form-label">Teléfono</label>
+            <input type="tel" id="patientPhone" class="form-input" placeholder="Ingrese número telefónico">
+          </div>
+          <div class="form-group">
+            <label for="patientEmail" class="form-label">Correo electrónico</label>
+            <input type="email" id="patientEmail" class="form-input" placeholder="Ingrese correo electrónico">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lifeStage" class="form-label">Etapa del ciclo vital</label>
+            <select id="lifeStage" class="form-select">
+              <option value="" disabled selected>Seleccione</option>
+              <option value="infancia">Infancia (0-11 años)</option>
+              <option value="adolescencia">Adolescencia (12-18 años)</option>
+              <option value="juventud">Juventud (19-26 años)</option>
+              <option value="adultez">Adultez (27-59 años)</option>
+              <option value="vejez">Vejez (60 años y más)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="maritalStatus" class="form-label">Estado civil</label>
+            <select id="maritalStatus" class="form-select">
+              <option value="" disabled selected>Seleccione</option>
+              <option value="soltero">Soltero/a</option>
+              <option value="casado">Casado/a</option>
+              <option value="union">Unión libre</option>
+              <option value="separado">Separado/a</option>
+              <option value="divorciado">Divorciado/a</option>
+              <option value="viudo">Viudo/a</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="education" class="form-label">Escolaridad</label>
+          <select id="education" class="form-select">
+            <option value="" disabled selected>Seleccione</option>
+            <option value="ninguna">Ninguna</option>
+            <option value="primaria">Primaria</option>
+            <option value="secundaria">Secundaria</option>
+            <option value="tecnico">Técnico</option>
+            <option value="tecnologo">Tecnólogo</option>
+            <option value="universitario">Universitario</option>
+            <option value="postgrado">Postgrado</option>
+          </select>
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="btn btn-primary next-btn" data-next="socialSecurity">Siguiente</button>
+        </div>
+      </div>
+
+      <!-- Sección: Información de Seguridad Social -->
+      <div class="form-section" id="socialSecurity">
+        <h3 class="form-section-title">Información de Seguridad Social</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="userType" class="form-label">Tipo de usuario GSS</label>
+            <select id="userType" class="form-select">
+              <option value="" disabled selected>Seleccione</option>
+              <option value="cotizante">Cotizante</option>
+              <option value="beneficiario">Beneficiario</option>
+              <option value="subsidiado">Subsidiado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="patientEPS" class="form-label">EPS</label>
+            <input type="text" id="patientEPS" class="form-input" placeholder="Ingrese EPS">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="patientAFP" class="form-label">AFP</label>
+            <input type="text" id="patientAFP" class="form-input" placeholder="Ingrese AFP">
+          </div>
+          <div class="form-group">
+            <label for="patientARL" class="form-label">ARL</label>
+            <input type="text" id="patientARL" class="form-input" placeholder="Ingrese ARL">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="insuranceCompany" class="form-label">Compañía de seguros</label>
+          <input type="text" id="insuranceCompany" class="form-input" placeholder="Ingrese compañía de seguros">
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="btn btn-outline prev-btn" data-prev="generalData">Anterior</button>
+          <button type="button" class="btn btn-primary next-btn" data-next="incidentInfo">Siguiente</button>
+        </div>
+      </div>
+
+      <!-- Sección: Información del Incidente -->
+      <div class="form-section" id="incidentInfo">
+        <h3 class="form-section-title">Información del Incidente</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="patientCompany" class="form-label">Empresa</label>
+            <input type="text" id="patientCompany" class="form-input" placeholder="Ingrese nombre de la empresa" required>
+          </div>
+          <div class="form-group">
+            <label for="incidentDate" class="form-label">Fecha del incidente</label>
+            <input type="date" id="incidentDate" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="incidentType" class="form-label">Tipo de incidente</label>
+            <select id="incidentType" class="form-select" required>
+              <option value="" disabled selected>Seleccione tipo de incidente</option>
+              <option value="accident">Accidente laboral</option>
+              <option value="disease">Enfermedad laboral</option>
+              <option value="other">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="patientStatus" class="form-label">Estado</label>
+            <select id="patientStatus" class="form-select" required>
+              <option value="" disabled selected>Seleccione estado</option>
+              <option value="active">Activo</option>
+              <option value="pending">Pendiente</option>
+              <option value="closed">Cerrado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="incidentDescription" class="form-label">Descripción del incidente</label>
+          <textarea id="incidentDescription" class="form-input form-textarea" placeholder="Describa brevemente el incidente" rows="4"></textarea>
+        </div>
+        
+        <div class="form-navigation">
+          <button type="button" class="btn btn-outline prev-btn" data-prev="socialSecurity">Anterior</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+      <!-- Sección: Información del Incidente -->
+      <h3 class="form-section-title">Información del Incidente</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="patientCompany" class="form-label">Empresa</label>
+          <input type="text" id="patientCompany" class="form-input" placeholder="Ingrese nombre de la empresa" required>
+        </div>
+        <div class="form-group">
+          <label for="incidentDate" class="form-label">Fecha del incidente</label>
+          <input type="date" id="incidentDate" class="form-input" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="incidentType" class="form-label">Tipo de incidente</label>
+          <select id="incidentType" class="form-select" required>
+            <option value="" disabled selected>Seleccione tipo de incidente</option>
+            <option value="accident">Accidente laboral</option>
+            <option value="disease">Enfermedad laboral</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="patientStatus" class="form-label">Estado</label>
+          <select id="patientStatus" class="form-select" required>
+            <option value="" disabled selected>Seleccione estado</option>
+            <option value="active">Activo</option>
+            <option value="pending">Pendiente</option>
+            <option value="closed">Cerrado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="incidentDescription" class="form-label">Descripción del incidente</label>
+        <textarea id="incidentDescription" class="form-input form-textarea" placeholder="Describa brevemente el incidente"></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" id="cancelBtn">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <script>
+
+// Get DOM elements
+const addPatientBtn = document.getElementById('addPatientBtn');
+const addPatientModal = document.getElementById('addPatientModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const addPatientForm = document.getElementById('addPatientForm');
+
+// Function to open modal
+function openModal() {
+  addPatientModal.classList.add('active-modal');
+  document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+}
+
+// Function to close modal
+function closeModal() {
+  addPatientModal.classList.remove('active-modal');
+  document.body.style.overflow = 'auto'; // Enable scrolling again
+  addPatientForm.reset(); // Reset form fields
+}
+
+// Event listeners
+addPatientBtn.addEventListener('click', openModal);
+closeModalBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+
+// Close modal if clicked outside content
+addPatientModal.addEventListener('click', (e) => {
+  if (e.target === addPatientModal) {
+    closeModal();
+  }
+});
+
+// Form submission
+addPatientForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  // Here you would typically collect form data and send to server
+  // For demo purposes, we'll just log and close
+  console.log('Form submitted');
+  
+  // You could add validation and AJAX submission here
+  
+  // Close modal after successful submission
+  closeModal();
+  
+  // Optional: Add a notification or refresh patient list
+  alert('Paciente agregado correctamente');
+  // location.reload(); // Uncomment to refresh page
+});
+
+// Additional feature: Calculate age from birth date
+const birthDateInput = document.getElementById('birthDate');
+const ageInput = document.getElementById('patientAge');
+
+birthDateInput.addEventListener('change', () => {
+  if (birthDateInput.value) {
+    const birthDate = new Date(birthDateInput.value);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    ageInput.value = age;
+  }
+});
+  
+  </script>

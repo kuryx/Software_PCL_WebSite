@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evaluación PCL - Inicio de Sesión</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Google Fonts: Titillium Web & Yellowtail -->
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+  <style>
+    /* Global: se aplica Titillium Web en todo y se resetean márgenes y padding */
+    * {
+      font-family: "Titillium Web", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Variables */
+    :root {
+      --first-color: hsl(270, 69%, 61%);
+      --first-color-alt: hsl(270, 57%, 53%);
+      --body-color: #f8f9fa;
+      --text-color: hsl(270, 8%, 45%);
+    }
+    body {
+      background: var(--body-color);
+      color: var(--text-color);
+    }
+    /* Animación de aparición */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Encabezado */
+    .header {
+      background-color: var(--first-color);
+      color: white;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .header img {
+      width: 60px;
+      height: 60px;
+    }
+    /* El logo usará "Yellowtail" */
+    .header .logo {
+      font-family: "Yellowtail", cursive;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 0 0 35px #fff;
+      margin-top: 10px;
+    }
+    .header p {
+      font-size: 1.1rem;
+    }
+    /* Tarjeta de Autenticación */
+    .auth-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    /* Pestañas de autenticación */
+    .nav-tabs .nav-link {
+      transition: color 0.3s;
+    }
+    .nav-tabs .nav-link.active {
+      font-weight: bold;
+    }
+    .nav-tabs .nav-link:hover {
+      color: var(--first-color-alt);
+    }
+    /* Botones con transiciones */
+    .btn {
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Encabezado con imagen y nombre de la empresa -->
+  <header class="header">
+    <div class="container">
+      <img src="images/vaculo-Photoroom.png" alt="Logo Esculapio">
+      <div class="logo">Evaluación PCL - Medicina</div>
+      <p>Nombre de la Empresa</p>
+    </div>
+  </header>
+  
+  <!-- Tarjeta de autenticación -->
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="auth-card">
+          <!-- Pestañas de autenticación -->
+          <ul class="nav nav-tabs" id="authTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab">
+                Iniciar Sesión
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab">
+                Registro
+              </a>
+            </li>
+          </ul>
+          
+          <div class="tab-content pt-3">
+            <!-- Formulario de Login -->
+            <div class="tab-pane fade show active" id="login" role="tabpanel">
+              <form id="loginForm">
+                <div class="form-group">
+                  <label for="loginEmail">Correo electrónico</label>
+                  <input type="email" class="form-control" id="loginEmail" placeholder="Ingresa tu correo" required>
+                </div>
+                <div class="form-group">
+                  <label for="loginPassword">Contraseña</label>
+                  <input type="password" class="form-control" id="loginPassword" placeholder="Ingresa tu contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                <div class="text-right mt-2">
+                  <a href="#" id="forgotPasswordLink">Olvidé mi contraseña</a>
+                </div>
+              </form>
+            </div>
+            
+            <!-- Formulario de Registro -->
+            <div class="tab-pane fade" id="register" role="tabpanel">
+              <form id="registerForm">
+                <div class="form-group">
+                  <label for="registerName">Nombre completo</label>
+                  <input type="text" class="form-control" id="registerName" placeholder="Ingresa tu nombre completo" required>
+                </div>
+                <div class="form-group">
+                  <label for="registerEmail">Correo electrónico</label>
+                  <input type="email" class="form-control" id="registerEmail" placeholder="Ingresa tu correo" required>
+                </div>
+                <div class="form-group">
+                  <label for="registerPassword">Contraseña</label>
+                  <input type="password" class="form-control" id="registerPassword" placeholder="Crea una contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Registrarse</button>
+              </form>
+            </div>
+          </div>
+          
+          <!-- Modal para recuperación de contraseña -->
+          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form id="forgotPasswordForm">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Recuperar Contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="forgotEmail">Ingresa tu correo</label>
+                      <input type="email" class="form-control" id="forgotEmail" placeholder="Correo electrónico" required>
+                    </div>
+                    <p>Recibirás un correo con instrucciones para restablecer tu contraseña.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- jQuery, Popper.js y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Mostrar modal para recuperación de contraseña
+    document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      $('#forgotPasswordModal').modal('show');
+    });
+    
+    // Manejadores de eventos para los formularios
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      console.log("Iniciando sesión...");
+    });
+    
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      console.log("Registrando usuario...");
+    });
+    
+    document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      console.log("Solicitud de recuperación de contraseña...");
+    });
+  </script>
+</body>
+</html>
